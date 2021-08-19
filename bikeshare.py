@@ -2,12 +2,24 @@ import time
 import pandas as pd
 import numpy as np
 import datetime
+import sys
 
 CITY_DATA = pd.Series(data = ['chicago.csv','new_york_city.csv','washington.csv'],
                         index = ['chicago','new york city','washington'])
 months = ['january', 'february', 'march', 'april', 'may', 'june',
             'july', 'august', 'september', 'october', 'november', 'december']
 days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
+# handle keyboard interrupts-- borrowed 19/08/21 from
+# https://stackoverflow.com/questions/6598053/python-global-exception-handling
+def exception_handler(type, value, trace):
+    if type == KeyboardInterrupt:
+        print('\n')
+        exit()
+    else:
+        sys.__excepthook__(type, value, trace)
+
+sys.excepthook = exception_handler
 
 def get_filters():
     """
@@ -30,9 +42,6 @@ def get_filters():
                 break
         except ValueError:
             print(value_error_string.format('1','3'))
-        except KeyboardInterrupt:
-            print('\n')
-            exit()
         else:
             print(value_error_string.format('1','3'))
     city = CITY_DATA.index[city_index-1]
@@ -50,9 +59,6 @@ def get_filters():
                 break
         except ValueError:
             print(value_error_string.format('1','12'))
-        except KeyboardInterrupt:
-            print('\n')
-            exit()
         else:
             print(value_error_string.format('1','12'))
     if month_index == '':
@@ -73,9 +79,6 @@ def get_filters():
                 break
         except ValueError:
             print(value_error_string.format('1','7'))
-        except KeyboardInterrupt:
-            print('\n')
-            exit()
         else:
             print(value_error_string.format('1','7'))
     if day_index == '':
@@ -258,34 +261,22 @@ def main():
         trip_duration_stats(df)
         user_stats(df)
 
-        try:
-            show_raw_data = input('\nWould you like to see the first 5 lines of raw data? Enter yes or no.\n')
-            if show_raw_data.lower() == 'yes':
-                pd.set_option('display.max_columns', None)
-                print(df.head())
-                index = 5
-                while 1:
-                    try:
-                        show_raw_data = input('\nWould you like to see 5 more lines of raw data? Enter yes or no.\n')
-                        if show_raw_data.lower() == 'yes':
-                            print(df.iloc[index:index+5])
-                            index += 5
-                        else:
-                            break
-                    except KeyboardInterrupt:
-                        print('\n')
-                        exit()
-        except KeyboardInterrupt:
-            print('\n')
-            exit()
+        show_raw_data = input('\nWould you like to see the first 5 lines of raw data? Enter yes or no.\n')
+        if show_raw_data.lower() == 'yes':
+            pd.set_option('display.max_columns', None)
+            print(df.head())
+            index = 5
+            while 1:
+                show_raw_data = input('\nWould you like to see 5 more lines of raw data? Enter yes or no.\n')
+                if show_raw_data.lower() == 'yes':
+                    print(df.iloc[index:index+5])
+                    index += 5
+                else:
+                    break
 
-        try:
-            restart = input('\nWould you like to restart? Enter yes or no.\n')
-            if restart.lower() != 'yes':
-                break
-        except KeyboardInterrupt:
-            print('\n')
-            exit()
+        restart = input('\nWould you like to restart? Enter yes or no.\n')
+        if restart.lower() != 'yes':
+            break
 
 
 if __name__ == "__main__":
