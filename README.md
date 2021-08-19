@@ -12,4 +12,5 @@ Run from the command line using `python bikeshare.py` in a directory that includ
 bikeshare.py
 
 ### Credits
-All credit to Udacity's Programming for Data Science nanodegree program.
+Credit to Udacity's Programming for Data Science nanodegree program.
+Keyboard interrupt code - 19/08/21 from https://stackoverflow.com/questions/6598053/python-global-exception-handling
