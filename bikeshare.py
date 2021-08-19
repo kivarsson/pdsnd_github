@@ -18,6 +18,8 @@ def get_filters():
         (str) month - name of the month to filter by, or "all" to apply no month filter
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
+    value_error_string = 'Oops! Please enter a number {}-{}'
+
     print('Hello! Let\'s explore some US bikeshare data!')
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     print('\nPlease select a city:\n1. Chicago\n2. New York\n3. Washington, DC\n')
@@ -27,12 +29,12 @@ def get_filters():
             if city_index >= 1 and city_index <=3:
                 break
         except ValueError:
-            print('Oops! Please enter 1, 2, or 3')
+            print(value_error_string.format('1','3'))
         except KeyboardInterrupt:
             print('\n')
             exit()
         else:
-            print('Oops! Please enter 1, 2, or 3')
+            print(value_error_string.format('1','3'))
     city = CITY_DATA.index[city_index-1]
 
     # get user input for month (all, january, february, ... , june)
@@ -47,12 +49,12 @@ def get_filters():
             if month_index >= 1 and month_index <= 12:
                 break
         except ValueError:
-            print('Oops! Please enter a number 1-12')
+            print(value_error_string.format('1','12'))
         except KeyboardInterrupt:
             print('\n')
             exit()
         else:
-            print('Oops! Please enter a number 1-12')
+            print(value_error_string.format('1','12'))
     if month_index == '':
         month = 'all'
     else:
@@ -70,12 +72,12 @@ def get_filters():
             if day_index >= 1 and day_index <= 7:
                 break
         except ValueError:
-            print('Oops! Please enter a number 1-7')
+            print(value_error_string.format('1','7'))
         except KeyboardInterrupt:
             print('\n')
             exit()
         else:
-            print('Oops! Please enter a number 1-7')
+            print(value_error_string.format('1','7'))
     if day_index == '':
         day = 'all'
     else:
