@@ -118,8 +118,10 @@ def load_data(city, month, day):
         month_number = months.index(month) + 1
         # filter by month to create the new dataframe
         df = df[df['month'] == month_number]
-
-        month_text = 'during the month of {}'.format(month.title())
+        if not df.empty:
+            month_text = 'during the month of {}'.format(month.title())
+        else:
+            return df
     else:
         month_text = 'across all months'
 
@@ -128,8 +130,10 @@ def load_data(city, month, day):
         # filter by day of week to create the new dataframe
         day_number = days.index(day)
         df = df[df['day_of_week'] == day_number]
-
-        day_text = 'on {}s'.format(day.title())
+        if not df.empty:
+            day_text = 'on {}s'.format(day.title())
+        else:
+            return df
     else:
         day_text = 'for every day of the week'
 
@@ -243,6 +247,11 @@ def main():
     while 1:
         city, month, day = get_filters()
         df = load_data(city, month, day)
+        if df.empty:
+            print('*'*80)
+            print('No data for this combination of inputs!')
+            print('*'*80)
+            break
 
         time_stats(df)
         station_stats(df)
